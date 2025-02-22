@@ -1,16 +1,4 @@
-export interface Transaction {
-    id: string;
-    date: string;
-    amount: number;
-    currency: string;
-    type: 'transfer' | 'withdrawal' | 'deposit';
-    description: string;
-    status: 'pending' | 'approved' | 'failed';
-    recipientId?: string;
-    fees?: number;
-  }
-  
-  export interface Portfolio {
+    export interface Portfolio {
     total: number;
     currency: string;
     breakdown: {
@@ -20,3 +8,17 @@ export interface Transaction {
       bonds: number;
     };
   }
+
+  // types/transaction.ts
+export interface Transaction {
+  id: string;
+  dateTime: string;
+  amount: string;
+  type: "Transfer" | "Withdrawal";
+  description: string;
+  status: "Pending" | "Approved" | "Failed";
+  recipient?: string;
+  fees?: number;
+  amountReceived?: string;
+}
+

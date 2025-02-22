@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { EB_Garamond, Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
+import { cn } from "@/lib/utils";
+import { ClerkProvider } from "@clerk/nextjs";
+import QueryProvider from "@/lib/provider";
+import { ThemeProvider } from "next-themes";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const eb_garamond = EB_Garamond({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,18 +33,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className="flex min-h-screen bg-white dark:bg-gray-900">
-          <Sidebar />
-          <div className="flex-1 flex flex-col">
-            <Header />
-            <main className="flex-1 p-6">{children}</main>
-          </div>
-        </div>
-      </body>
-    </html>
+    <ClerkProvider>
+      {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem> */}
+      <html lang="en" className={cn(inter.variable, eb_garamond.variable)}>
+        <body className="min-h-[calc(100vh-1px)] flex flex-col font-sans bg-brand-50 text-brand-950 antialiased">
+          <main className="relative flex-1 flex flex-col">
+            <QueryProvider>{children}</QueryProvider>
+          </main>
+        </body>
+      </html>
+      {/* </ThemeProvider> */}
+    </ClerkProvider>
   );
 }
