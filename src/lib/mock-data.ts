@@ -3,16 +3,28 @@ import { Transaction, Portfolio } from '@/types';
 export const mockTransactions: Transaction[] = [
   {
     id: '1',
-    date: '2023-08-30T12:30:00Z',
-    amount: 38522,
-    currency: 'CAD',
-    type: 'transfer',
+    transactionId: 'JDEUAYYWTQ',
+    dateTime: '2023-08-30T12:30:00Z',
+    amount: '38522',
+    type: 'Transfer', // Capital "T"
     description: 'Bills payment',
-    status: 'pending',
+    status: 'Pending', // Capital "P"
     fees: 5,
+    // etc...
   },
-  // Add more mock transactions...
+  {
+    id: '2',
+    transactionId: 'ABC123XYZ',
+    dateTime: '2023-08-30T12:30:00Z',
+    amount: '50000',
+    type: 'Withdrawal', // Must be "Withdrawal" if you want
+    description: 'Card payment',
+    status: 'Approved', // Capital "A"
+    fees: 15,
+  },
+  // ...
 ];
+
 
 export const mockPortfolio: Portfolio = {
   total: 100000,

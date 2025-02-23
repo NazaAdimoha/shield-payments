@@ -1,3 +1,4 @@
+"use client";
 import { PieChart, Cell, Pie } from 'recharts';
 
 interface PortfolioData {
