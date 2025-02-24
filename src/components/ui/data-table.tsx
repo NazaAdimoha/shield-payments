@@ -46,19 +46,21 @@ export function DataTable<TData extends object>({
             className="rounded-lg bg-white dark:bg-gray-800 p-4 shadow"
             onClick={() => onRowClick?.(row)}
           >
-            {columns.map((column) => (
+          {columns.map((column) => {
+            const cell = table.getRowModel().rows[idx]?.getVisibleCells()
+              .find(cell => cell.column.id === column.id);
+                          
+            return (
               <div key={column.id} className="flex justify-between py-1">
                 <span className="text-gray-500 dark:text-gray-400">
                   {String(column.header)}
                 </span>
                 <span>
-                  {flexRender(
-                    column.cell,
-                    table.getRowModel().rows[idx].getVisibleCells()[columns.indexOf(column)].getContext()
-                  )}
+                  {cell ? flexRender(column.cell, cell.getContext()) : null}
                 </span>
               </div>
-            ))}
+            );
+          })}
           </div>
         ))}
         
