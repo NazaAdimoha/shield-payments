@@ -1,22 +1,28 @@
 "use client";
 
 import React, { PropsWithChildren, useState } from 'react';
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
-import { Search } from "@/components/ui/search";
 import { UserButton } from "@clerk/nextjs";
+import Home from "../../assets/category.svg";
+import Wallet from "../../assets/wallet-2.svg";
+import Coin from "../../assets/coin.svg";
+import Money from "../../assets/money-add.svg"; 
+import Logo from "../../assets/logo.svg";
+import Hamburger from "../../assets/hamburger.svg";
 import {
-  Gem,
-  Home,
-  Key,
   Menu,
   Moon,
   Sun,
   X,
+  Bell,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import { Input } from '@/components/ui/input';
 
 const sidebarItems = [
   {
@@ -26,43 +32,30 @@ const sidebarItems = [
   },
   {
     name: "Wallet",
-    href: "/wallet",
-    icon: Gem,
+    href: "/dashboard/wallet",
+    icon: Wallet,
   },
   {
     name: "Pay",
     href: "/dashboard/pay",
-    icon: Key,
+    icon: Coin,
   },
   {
     name: "Earn",
-    href: "/earn",
-    icon: Key,
+    href: "/dashboard/earn",
+    icon: Money,
   },
 ];
-
-const SearchBar = () => {
-  return (
-    <div className="relative w-full max-w-md">
-      <Search
-        value={""}
-        onChange={function (value: string): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-    </div>
-  );
-};
 
 const Sidebar = ({ onClose }: { onClose?: () => void }) => {
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
-  
+
   return (
     <div className="flex flex-col h-full">
       <div className="p-2">
         <div className="flex items-center gap-2 mb-6">
-          <div className="h-8 w-8 rounded-full bg-purple-600" />
+          <Image src={Logo} alt="Shield Payments" width={32} height={32} />
           <div>
             <h1 className="font-semibold">Shield Payments</h1>
             <p className="text-sm text-gray-500">Free plan</p>
@@ -74,13 +67,12 @@ const Sidebar = ({ onClose }: { onClose?: () => void }) => {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 rounded-lg px-4 py-2 text-sm transition-colors ${
-                pathname === item.href
+              className={`flex items-center gap-3 rounded-lg px-4 py-2 text-sm transition-colors ${pathname === item.href
                   ? "bg-purple-600 text-white"
                   : "hover:bg-gray-100 dark:hover:bg-gray-800"
-              }`}
+                }`}
             >
-              <item.icon className="h-5 w-5" />
+              <Image src={item.icon} alt={item.name} width={20} height={20} />
               {item.name}
             </Link>
           ))}
@@ -135,27 +127,48 @@ const Layout = ({ children }: PropsWithChildren) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-h-screen overflow-hidden">
+      <main className="flex-1 flex flex-col min-h-screen overflow-hidden bg-white">
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200">
-          <p className="text-lg/7 font-semibold text-brand-900">
-            Shield Payments
-          </p>
           <button
             onClick={() => setIsDrawerOpen(true)}
             className="text-gray-500 hover:text-gray-600"
           >
-            <Menu className="size-6" />
+            <Image src={Hamburger} alt="Shield Payments" width={24} height={24} />
           </button>
+
+          <p className="text-lg/7 font-semibold text-brand-900">
+            {currentRoute}
+          </p>
+
+          <div className="flex items-center gap-4">
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <Bell className="w-5 h-5 text-gray-500" />
+            </button>
+            <UserButton afterSignOutUrl="/" />
+          </div>
         </div>
 
         {/* Desktop Header */}
         <header className="hidden md:flex h-16 border-b items-center justify-between px-6 bg-white">
           <h1 className="text-xl font-semibold">{currentRoute}</h1>
-          <div className="flex items-center gap-4">
-            <SearchBar />
+          <div className="flex items-center gap-4 w-full mx-24">
+            <div className="relative w-full">
+              <Input
+                type="search"
+                placeholder="Search..."
+                className="w-full bg-gray-100 border-0"
+              />
+            </div>
+
+
           </div>
-          <UserButton afterSignOutUrl="/" />
+          <div className="flex items-center gap-4">
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <Bell className="w-5 h-5 text-gray-500" />
+            </button>
+            <UserButton afterSignOutUrl="/" />
+          </div>
         </header>
 
         {/* Content Area */}

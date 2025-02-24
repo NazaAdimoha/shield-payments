@@ -4,6 +4,8 @@ import { ArrowRight } from "lucide-react"
 import { currentUser } from "@clerk/nextjs/server"
 import { MaxWidthWrapper } from "../max-width-wrapper"
 import { Button, buttonVariants } from "../ui/button"
+import Image from "next/image";
+import Logo from "../../assets/logo.svg";
 
 export const Header = async () => {
   const user = await currentUser()
@@ -13,7 +15,7 @@ export const Header = async () => {
       <MaxWidthWrapper>
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex z-40 font-semibold">
-            JobBoarD<span className="text-brand-700">_NG</span>
+            <Image src={Logo} alt="Logo" width={50} height={50} />
           </Link>
 
           <div className="h-full flex items-center space-x-4">

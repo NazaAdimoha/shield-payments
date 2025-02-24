@@ -1,17 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Send from "../../../assets/money-tick.svg";
-import DollarSign from "../../../assets/wallet.jpg";
-import CreditCard from "../../../assets/card-pos.jpg";
+import DollarSign from "../../../assets/wallet.svg";
+import CreditCard from "../../../assets/card-pos.svg";
 import FileText from "../../../assets/receipt-2.svg";
-import { Transaction } from "@/types";
-import { StatusPill } from "@/components/ui/status-pill";
-import { useTransactions } from "@/hooks/use-transactions";
 import { MaxWidthWrapper } from "@/components/max-width-wrapper";
-import { DataTable } from "@/components/ui/data-table";
-import { TransactionDrawer } from "@/components/transactions/transaction-details";
+import { RecentTransactions } from "@/components/transactions/recent-transactions";
 
 const PayActionCard = ({
   icon: Icon,
@@ -36,47 +31,7 @@ const PayActionCard = ({
   </button>
 );
 
-const columns = [
-  {
-    id: "dateTime",
-    header: "Date & Time",
-    accessorKey: "dateTime",
-    cell: ({ row }: { row: Transaction }) => (
-      <span>{new Date(row.dateTime).toLocaleString()}</span>
-    ),
-  },
-  {
-    id: "amount",
-    header: "Amount",
-    accessorKey: "amount",
-  },
-  {
-    id: "type",
-    header: "Type",
-    accessorKey: "type",
-  },
-  {
-    id: "description",
-    header: "Description",
-    accessorKey: "description",
-  },
-  {
-    id: "status",
-    header: "Status",
-    accessorKey: "status",
-    cell: ({ row }: { row: Transaction }) => (
-      <StatusPill status={row.status} />
-    ),
-  },
-];
-
 export default function PayPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { data: transactionsData, isLoading } = useTransactions(currentPage);
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(
-    null
-  );
-
   const actions = [
     {
       icon: Send,
@@ -110,38 +65,9 @@ export default function PayPage() {
             ))}
           </div>
 
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-              Recent Transactions
-            </h2>
-
-            {isLoading ? (
-              <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-              </div>
-            ) : (
-              <DataTable
-                data={transactionsData?.data || []}
-                columns={columns}
-                metadata={transactionsData?.metadata || {
-                  currentPage: 1,
-                  totalPages: 1,
-                  totalItems: 0,
-                  itemsPerPage: 10,
-                }}
-                onPageChange={setCurrentPage}
-                onRowClick={setSelectedTransaction}
-              />
-            )}
-          </div>
+          <RecentTransactions />
         </div>
       </MaxWidthWrapper>
-
-      <TransactionDrawer
-        isOpen={!!selectedTransaction}
-        onClose={() => setSelectedTransaction(null)}
-        transaction={selectedTransaction}
-      />
     </div>
   );
 }

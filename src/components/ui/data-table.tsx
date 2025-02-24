@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import React from "react";
 
-interface DataTableProps<TData> {
+interface DataTableProps<TData extends object> {
   data: TData[]
   columns: ColumnDef<TData, any>[]
   metadata: {
@@ -15,7 +15,7 @@ interface DataTableProps<TData> {
   onRowClick?: (row: TData) => void
 }
 
-export function DataTable<TData>({
+export function DataTable<TData extends object>({
   data,
   columns,
   metadata,
@@ -52,7 +52,10 @@ export function DataTable<TData>({
                   {String(column.header)}
                 </span>
                 <span>
-                  {flexRender(column.cell, { row: { original: row } })}
+                  {flexRender(
+                    column.cell,
+                    table.getRowModel().rows[idx].getVisibleCells()[columns.indexOf(column)].getContext()
+                  )}
                 </span>
               </div>
             ))}

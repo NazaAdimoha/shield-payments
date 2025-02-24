@@ -1,39 +1,40 @@
-  
-  export interface Portfolio {
-    total: number;
-    currency: string;
-    breakdown: {
-      cash: number;
-      crypto: number;
-      stocks: number;
-      bonds: number;
-    };
-  }
+export interface Portfolio {
+  total: number;
+  currency: string;
+  breakdown: {
+    cash: number;
+    crypto: number;
+    stocks: number;
+    bonds: number;
+  };
+}
 
-  export interface Portfolio {
-    total: number;
-    currency: string;
-    breakdown: {
-      cash: number;
-      crypto: number;
-      stocks: number;
-      bonds: number;
-    };
-  }
+export interface Portfolio {
+  total: number;
+  currency: string;
+  breakdown: {
+    cash: number;
+    crypto: number;
+    stocks: number;
+    bonds: number;
+  };
+}
 
-  // types/transaction.ts
-export interface Transaction {
+// types/transaction.ts
+export type Transaction = {
   id: string;
   transactionId: string;
   dateTime: string;
   amount: string;
-  type: "Transfer" | "Withdrawal";
+  type: 'Transfer' | 'Withdrawal';
   description: string;
-  status: "Pending" | "Approved" | "Failed";
+  status: 'Pending' | 'Approved' | 'Failed';
+  fees: number;
   recipient?: string;
-  fees?: number;
+  amountTendered?: string;
+  totalFees?: string;
   amountReceived?: string;
-}
+};
 
 // types/table.ts
 export interface PaginationMetadata {
@@ -64,20 +65,6 @@ export interface PortfolioBreakdownItem {
   growth: number;
   icon: React.ReactNode;
   color: string;
-}
-
-export interface TransactionDetails {
-  id: string;
-  amount: string;
-  dateTime: string;
-  type: "Transfer" | "Withdrawal";
-  recipient?: string;
-  description: string;
-  status: "Pending" | "Approved" | "Failed";
-  amountTendered?: string;
-  amountReceived?: string;
-  totalFees?: string;
-  transactionId: string;
 }
 
 
