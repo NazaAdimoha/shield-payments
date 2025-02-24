@@ -14,7 +14,10 @@ export default function DashboardPage() {
           <h2 className="text-3xl font-semibold text-gray-900 dark:text-gray-100">
             Overview
           </h2>
+
+          <div className="w-full mt-4 border"></div>
           <ValueCards />
+          <div className="w-full mt-4 border"></div>
           <PortfolioSection />
           <RecentTransactions title={false} />
         </div>
